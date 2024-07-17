@@ -10,7 +10,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AtoTransferencia {
-    private String from;
-    private String to;
-    private double amount;
+
+	private String from;
+
+	private String to;
+
+	private double amount;
+
 }
