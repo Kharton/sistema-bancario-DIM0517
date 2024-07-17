@@ -15,24 +15,23 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-	private String numUser;
+  private String numUser;
 
-	private double saldo;
+  private double saldo;
 
-	private int pontos;
+  private int pontos;
 
-	/*
-	 * 1 = Normal 2 = Bonificada 3 = Poupança
-	 */
-	private int type;
+  /*
+   * 1 = Normal 2 = Bonificada 3 = Poupança
+   */
+  private int type;
 
-	@JsonIgnore
-	public String getId() {
-		return id;
-	}
-
+  @JsonIgnore
+  public String getId() {
+    return id;
+  }
 }
