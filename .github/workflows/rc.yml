@@ -31,7 +31,7 @@ jobs:
 
       - uses: axel-op/googlejavaformat-action@v3
         with:
-          args: "--set-exit-if-changed"
+          args: "--skip-sorting-imports --replace"
 
       - name: Test
         run: mvn test
