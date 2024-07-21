@@ -5,6 +5,27 @@ on:
     branches:
       - develop
 jobs:
+  pre-fill:
+    if: ${{ vars.version == 0 && vars.subversion == 0 }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: incrementa version
+        uses: action-pack/increment@v2
+        with:
+          name: 'version'
+          token: ${{ secrets.REPO_TOKEN }}
+          amount: 0
+
+      - name: incrementa subversion
+        uses: action-pack/increment@v2
+        with:
+          name: 'subversion'
+          token: ${{ secrets.REPO_TOKEN }}
+
   build:
     runs-on: ubuntu-latest
     env:
@@ -33,12 +54,6 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-
-      - name: incrementa subversion
-        uses: action-pack/increment@v2
-        with:
-          name: 'subversion'
-          token: ${{ secrets.REPO_TOKEN }}
 
       - name: Cache Maven
         uses: actions/cache@v4
