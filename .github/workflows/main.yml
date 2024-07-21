@@ -20,14 +20,6 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Criar tag
-        id: tag
-        env:
-          TOKEN: ${{ secrets.REPO_TOKEN }}
-        run: |
-          git tag $tag
-          git push $tag
-
       - name: incrementa subversion
         uses: action-pack/increment@v2
         with:
@@ -47,6 +39,14 @@ jobs:
 
       - name: Test
         run: mvn test
+
+      - name: Criar tag
+        id: tag
+        env:
+          TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: |
+          git tag $tag
+          git push $tag
 
       - name: Create release package
         env:
