@@ -4,18 +4,36 @@ on:
   push:
     branches:
       - develop
-  pull_request:
-    branches:
-      - develop
-    types: [closed]
 jobs:
   build:
-    if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
+    env:
+      tag: rel-${{vars.version}}.${{vars.subversion}}
 
     steps:
       - name: Checkout repositorio
         uses: actions/checkout@v4
+
+      - name: incrementa subversion
+        uses: action-pack/increment@v2
+        with:
+          name: 'version'
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          amount: 0
+
+      - name: Criar tag
+        id: tag
+        env:
+          TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: |
+          git tag $tag
+          git push $tag
+
+      - name: incrementa subversion
+        uses: action-pack/increment@v2
+        with:
+          name: 'subversion'
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: Setup JDK
         uses: actions/setup-java@v4
@@ -30,6 +48,28 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+
+      - name: Compile
+        run: mvn clean compile
+
+      - name: Test
+        run: mvn test
+
+      - name: Create release package
+        env:
+          TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
+        run: |
+          mkdir -p release
+          cp -r target/* release/
+          cd release
+          zip -r ../$tag.zip .
+          cd ..
+
+      - name: Upload release asset
+        uses: actions/upload-artifact@v4
+        with:
+          name: $tag.zip
+          path: $tag.zip
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -47,11 +87,3 @@ jobs:
           tags: ${{ vars.DOCKER_USERNAME }}/banco:latest
           context: .
           file: .github/workflows/Dockerfile
-
-      - name: Criar tag
-        id: tag
-        env:
-          TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
-        run: |
-          git tag build-$(date +'%Y%m%d%H%M%S')
-          git push origin build-$(date +'%Y%m%d%H%M%S')
