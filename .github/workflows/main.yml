@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      tag: rel-${{vars.version}}.${{vars.subversion}}
+      tagv: ${{vars.version}}.${{vars.subversion}}
 
     steps:
       - name: Checkout repositorio
@@ -45,8 +45,8 @@ jobs:
         env:
           TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
         run: |
-          git tag build-$(date +'%Y%m%d%H%M%S')
-          git push origin build-$(date +'%Y%m%d%H%M%S')
+          git tag rel-$tagv
+          git push origin rel-$tagv
 
       - name: Create release package
         env:
