@@ -27,6 +27,7 @@ jobs:
           token: ${{ secrets.REPO_TOKEN }}
 
   build:
+    if: ${{ always() }}
     needs: pre-fill
     runs-on: ubuntu-latest
     env:
