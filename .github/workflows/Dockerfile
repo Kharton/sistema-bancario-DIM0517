@@ -4,7 +4,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 WORKDIR /target
 RUN dir -s
-ARG JAR_FILE=target/banco-*.jar
-COPY  app/${JAR_FILE} app.jar
+ARG JAR_FILE=banco*.jar
+COPY ${JAR_FILE} app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
