@@ -4,6 +4,6 @@ COPY src ./src
 RUN mvn clean package
 
 ARG JAR_FILE=target/banco-*.jar
-COPY --from=builder /app/${JAR_FILE} app.jar
+COPY  app/${JAR_FILE} app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
