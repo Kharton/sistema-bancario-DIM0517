@@ -6,7 +6,7 @@ on:
       - develop
 jobs:
   pre-fill:
-    if: ${{ vars.version == 0 && vars.subversion == 0 }}
+    if: ${{ vars.version  == 0 && vars.subversion == 0 }}
     runs-on: ubuntu-latest
 
     steps:
