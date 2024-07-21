@@ -23,7 +23,7 @@ jobs:
       - name: Criar tag
         id: tag
         env:
-          TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
+          TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           git tag $tag
           git push $tag
