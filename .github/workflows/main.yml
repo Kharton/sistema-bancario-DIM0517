@@ -11,15 +11,14 @@ jobs:
       tag: rel-${{vars.version}}.${{vars.subversion}}
 
     steps:
-      - name: incrementa version
-        uses: action-pack/increment@v2
-        with:
-          name: 'version'
-          token: ${{ secrets.REPO_TOKEN }}
-          amount: 0
-
       - name: Checkout repositorio
         uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '17'
 
       - name: Criar tag
         id: tag
@@ -34,12 +33,6 @@ jobs:
         with:
           name: 'subversion'
           token: ${{ secrets.REPO_TOKEN }}
-
-      - name: Setup JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt'
-          java-version: '17'
 
       - name: Cache Maven
         uses: actions/cache@v4
