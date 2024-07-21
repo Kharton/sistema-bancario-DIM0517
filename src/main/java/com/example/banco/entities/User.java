@@ -1,6 +1,5 @@
 package com.example.banco.entities;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,16 +14,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    private String numUser;
-    private double saldo;
-    private int pontos;
-    private int type;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @JsonIgnore
-    public String getId() {
-        return id;
-    }
+  private String numUser;
+  private double saldo;
+  private int pontos;
+  /*
+    1 = Normal
+    2 = Bonificada
+    3 = Poupança
+  */
+  private int type;
+
+  @JsonIgnore
+  public String getId() {
+    return id;
+  }
 }
