@@ -27,6 +27,7 @@ jobs:
           token: ${{ secrets.REPO_TOKEN }}
 
   build:
+    needs: pre-fill
     runs-on: ubuntu-latest
     env:
       tagv: ${{vars.version}}.${{vars.subversion}}
