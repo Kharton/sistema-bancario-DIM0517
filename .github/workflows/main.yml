@@ -22,6 +22,12 @@ jobs:
           git tag rel-$tagv
           git push origin rel-$tagv
 
+      - name: incrementa subversion
+        uses: action-pack/increment@v2
+        with:
+          name: 'subversion'
+          token: ${{ secrets.REPO_TOKEN }}
+
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
