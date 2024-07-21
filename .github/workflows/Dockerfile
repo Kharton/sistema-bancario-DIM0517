@@ -1,8 +1,8 @@
 FROM maven:3-openjdk-17 AS builder
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean package
-RUN cd target
+RUN mvn clean package -DskipTests
+WORKDIR /target
 RUN dir -s
 ARG JAR_FILE=target/banco-*.jar
 COPY  app/${JAR_FILE} app.jar
