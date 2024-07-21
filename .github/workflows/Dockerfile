@@ -2,7 +2,7 @@ FROM maven:3-openjdk-17 AS builder
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package
-
+RUN dir -s
 ARG JAR_FILE=target/banco-*.jar
 COPY  app/${JAR_FILE} app.jar
 EXPOSE 8080
